@@ -1,0 +1,728 @@
+
+--------1.The accounts team wants to check payments made via UPI to measure digital adoption;
+select * from payments where paymentmethod = 'UPI';
+
+--------2.List all unique first names of customers for a duplicate check;
+ select distinct(firstname) from customers;
+ 
+--------3.Delete all rooms with Capacity = 1;
+delete from rooms where capacity = 1;
+
+--------4. Display each customer’s name and phone number together using CONCAT;
+select concat(firstname, ' ', lastname, ' ', phone) from customers;
+select concat_ws(' ',firstname,lastname,phone) from customers;
+
+--------5.The booking office wants to see bookings where RoomID = 10 to check utilization of a specific room;
+select * from bookings where roomid = 10;
+
+--------6.Identify rooms whose Capacity is greater than the average Capacity of all rooms;
+select * from rooms where capacity > (select avg(capacity) from rooms);
+
+--------7. Create a VIEW StaffContact showing Staff FirstName, LastName, Role, and phone;
+create view staffcontact as select Firstname, Lastname, Role, Phone from staff;
+
+--------8.The receptionist wants to offer Suite rooms under ₹7000 to business travelers;
+select * from rooms where roomtype = 'suite' and pricepernight < 7000;
+
+--------9.The admin wants to see email addresses sorted by LastName from the Customers table;
+select email from customers order by lastname; 
+
+--------10.Show staff full names combined into one column;
+select concat_ws(' ', firstname, lastname) as fullname from staff;
+
+---11.Display all payment details in one line using CONCAT_WS;
+select concat_ws(' ', paymentid,paymentdate,paymentmethod,amount) from payments;
+
+---12.The hotel wants to display the 2 most expensive rooms for VIP guests;
+select * from rooms order by pricepernight desc limit 2;
+
+---13.Show each BookingID with its CheckIn and CheckOut dates combined;
+select bookingid, concat_ws(' ', CheckInDate, checkoutdate) from bookings;
+
+---14.Finance wants to calculate the average Amount per PaymentMethod;
+select paymentmethod, avg(amount) from payments group by paymentmethod;
+
+---15.The analytics team wants to find the city where average CustomerID is greater than 50;
+select city from customers group by city having avg(customerid) > 50;
+
+---16. Find bookings where TotalAmount exceeds the average TotalAmount;
+select * from bookings where totalamount > (select avg(totalamount) from bookings);
+ 
+---17.Display the last 2 added rooms from the Rooms table;
+
+---18. The cashier wants a report of payments where Amount < ₹1500 for small transactions;
+select * from payments where amount < 1500;
+
+--19. Management wants to list all customers who have made more than 5 bookings;
+select c.customerid, c.firstname from customers c join bookings b on c.customerid = b.customerid group by c.customerid, c.firstname having count(bookingid) > 5;
+
+--20.Identify customers who live in the same city;
+select c1.firstname from customers c1 join customers c2 on c1.city = c2.city and c1.firstname != c2.firstname;
+
+--21.Show the total revenue handled by each StaffID;
+select staffid, sum(totalamount) as TotalRevenue from bookings group by staffid;
+
+--22.The manager wants to see all customers from Mumbai to check city-wise marketing campaigns;
+select * from customers where city = 'Mumbai';
+
+--23.Display the 3 lowest booking amounts;
+select * from bookings order by totalamount limit 3;
+
+--24.Insert 5 new room records with type, price, and capacity into the Rooms table;
+insert into rooms values
+(81,'Suite', 5555.00, 2),
+(82,'Single', 2051.00, 2),
+(83,'Deluxe', 2211.00, 4),
+(84,'Double', 7365.00, 3),
+(85,'Family', 6541.00, 2);
+
+--25.Show all unique CustomerIDs from bookings;
+select distinct(customerid) from bookings;
+
+--26. Create a trigger to automatically delete a payment when its corresponding booking is deleted;
+
+--27.The marketing team wants to update the FirstName of CustomerID = 30 to rahul;
+update customers set firstname = 'Rahul' where customerid = 30;
+
+--28.List all bookings ordered by CheckInDate;
+select * from bookings order by checkindate;
+
+--29.Show all rooms where capacity is greater than 2;
+select * from rooms where capacity > 2;
+
+--30] List staff emails ordered by their roles;
+select email from staff order by role ;
+
+--31] Display each customer’s full name and city using CONCAT_WS;
+select concat_ws(' ', firstname,lastname) as fullname ,City from customers;
+
+--32] Show the first 4 customers’ full names only;
+select concat_ws(' ', firstname, lastname) from customers limit 4;
+
+--33] Show each staff’s role with their full name;
+select concat(firstname, ' ' , lastname), role from staff;
+
+--34] Management wants to find the average StaffID per role;
+select role, avg(staffid) from staff group by role;
+
+--35] List all bookings handled by StaffID = 2;
+select * from bookings where staffid = 2;
+
+--36] Display the first 3 staff alphabetically by their first names;
+select * from staff order by firstname limit 3;
+
+--37] The front desk manager wants to see customers where FirstName = 'Amit' AND City = 'Nagpur' for personal attention;
+select * from customers where firstname = 'Amit' and city = 'nagpur';
+
+--38] Show all unique payment methods in descending order;
+select distinct(paymentmethod) from payments order by paymentmethod desc;
+
+--39] Insert 5 staff members into the Staff table with their role, phone, and email;
+insert into staff values
+(41, 'Prem', 'Paikade', 'Waiter', 8952467812, 'prempaikade@gmail.com'),
+(42, 'Naresh', 'Kale', 'Manager', 8952467812, 'Nareshkale@infosys.com'),
+(43, 'Sandip', 'Dhakne', 'Housekeeping', 8952467812, 'Sandipdhakne@arbor.com'),
+(44, 'Tushar', 'Jadhav', 'Chef', 8952467812, 'Tusharjadhav@tcs.com'),
+(45, 'Amol', 'Kendre', 'Receptionist', 8952467812, 'Amolkendre@outlook.com');
+
+--40] The hotel manager wants to review bookings where CheckInDate is after '2024-01-01' to analyze recent occupancy;
+select * from bookings where checkindate > '2024-10-01';
+
+--41] List all customers whose FirstName is 'Rahul' for a loyalty program;
+select * from customers where firstname = 'Rahul';
+
+--42] Show all unique room types offered by the hotel;
+select distinct(roomtype) from rooms;
+select roomtype from rooms group by roomtype;
+
+--43] Identify customers who spent more than 50,000 in total;
+select * from payments where amount > 50000;
+
+--44] Delete all customers from the city 'TestCity';
+delete from customers where city = 'Testcity';
+
+--45] Find rooms that have the same PricePerNight;
+select r1.roomid, r1.roomtype, r1.pricepernight, r1.capacity, r2.pricepernight from rooms r1 join rooms r2 on r1.pricepernight=r2.pricepernight;
+
+--46] The manager wants to see staff whose Email ends with '@tcs.in' for corporate tieups;
+select * from staff where email like '%@tcs.in';
+
+--47]The analytics team wants to list all cities where maximum CustomerID is more than 100;
+select city from customers group by city having max(customerid) > 100;
+
+--48] Show all unique capacities in descending order;
+select distinct(capacity) from rooms order by  capacity desc;
+
+--49] List staff working as Managers;
+select * from staff where role = 'Manager';
+
+--50] Display each payment’s ID, Method, Amount in one line;
+select concat_ws(' ', paymentid,paymentmethod,amount) as INFO from payments;
+
+--51] Show the first 4 payments only;
+select * from payments limit 4;
+
+--52] The hotel manager wants to review rooms where PricePerNight is between ₹2000 and ₹4000 to offer discounts;
+select * from rooms where pricepernight > 2000 and pricepernight < 4000;
+select * from rooms where pricepernight between 2000 and 4000;
+
+--53] List all bookings ordered by CheckInDate;
+select * from bookings order by checkindate;
+
+--54] Display all unique CustomerIDs from bookings;
+select distinct(customerid) from bookings;
+
+--55] The hotel manager wants to add new customer details. Insert 5 records with full details into the Customers table;
+insert into customers values
+(201, 'Naresh', 'Kale', 'Nareshkale@infosys.com', 8952467812, 'Kolkata'),
+(202, 'Prem', 'Paikade', 'prempaikade@gmail.com', 8952467822, 'Sambhajinager'),
+(203, 'Sandip', 'Dhakne', 'Sandipdhakne@arbor.com', 8952467832, 'Delhi'),
+(204, 'Tushar', 'Jadhav', 'Tusharjadhav@tcs.com', 8952442672,'Ahmedabad' ),
+(205, 'Amol', 'Kendre', 'Amolkendre@outlook.com', 7825417812, 'Jaipur');
+
+--56]Show the last 2 staff hired;
+select * from staff order by hireddate desc limit 2;
+
+--57] Identify rooms with PricePerNight higher than the maximum PricePerNight of rooms with Capacity = 2;
+select * from rooms where pricepernight > (select max(pricepernight) from rooms) and capacity = 2;
+
+--58] The HR team wants to see staff whose Role is not 'Chef' for role reallocation;
+select * from staff where role != 'Chef';
+
+--59] Show all unique cities in descending order from the Customers table;
+select distinct(city) from customers order by city desc;
+
+--60] Display the phone number of the Waiter only;
+select firstname, phone from staff where role = 'waiter';
+
+--61] Display the last 2 bookings in the table;
+select * from bookings order by checkindate desc limit 2;
+
+--62] The marketing team wants to see customers living in Delhi or Chennai for targeted promotions;
+select * from customers where city = 'Delhi' or City = 'Chennai';
+select * from customers where city in ('delhi','chennai');
+
+--63] Show all rooms where RoomType != 'Family' to plan renovations;
+select * from rooms where roomtype != 'Family';
+
+--64] List staff emails ordered by their roles;
+select firstname, email from staff order by role;
+
+--65] Display all unique payment methods;
+select distinct(paymentmethod) from payments;
+select paymentmethod from payments group by paymentmethod;
+
+--66] The receptionist wants a list of customers whose Phone starts with '98' for mobile offers;
+select * from customers where phone like ('98%');
+
+--67] Show the 3 cheapest rooms available for budget travelers;
+select * from rooms order by pricepernight limit 3;
+
+--68] Display the last 2 payments;
+select * from payments order by paymentdate desc limit 2;
+
+--69] Management wants to know which unique cities customers come from;
+select distinct(city) from customers;
+
+--70]List all bookings where TotalAmount > 5000;
+select * from bookings where totalamount > 5000;
+
+--71] Display each staff’s Role with their Email in one column;
+select firstname, concat_ws(' ', role, email) from staff;
+
+--72] Show the first 4 staff full names;
+select concat_ws(' ', Firstname, lastname) as fullname from staff limit 4;
+
+--73] Find bookings where TotalAmount is greater than all bookings made by CustomerID = 10;
+select * from bookings where totalamount > all (select totalamount from bookings where customerid = 10);
+
+--74] List rooms with capacity >= 3 for family bookings;
+select * from rooms where capacity >=3;
+
+--75] Display the RoomType and Price of only Suite rooms;
+select roomtype, pricepernight from rooms where roomtype = 'suite';
+
+--76] The cashier wants to see payments with Amount between ₹2000 and ₹7000 for mid-range billing checks;
+select * from payments where amount between 2000 and 7000;
+
+--77] Insert 5 booking records into the Bookings table with all details;
+insert into bookings values
+('1001','150', '28', '45', '2025-11-09', '2025-11-16', '18394.00');
+
+--78] Display the 3 lowest payments made by customers;
+select * from payments order by amount limit 3;
+
+--79] Show each booking’s BookingID with TotalAmount using CONCAT;
+select *, concat(bookingid, ' ', totalamount) from bookings;
+
+--80] Show all unique RoomIDs in descending order;
+select distinct(roomid) from bookings order by roomid desc;
+
+--81] Display each room’s RoomType and Price using CONCAT_WS;
+select concat_ws(' ', roomtype, pricepernight) from rooms;
+
+-- 82] The admin wants to delete all bookings handled by StaffID = 3;
+delete from bookings where staffid = 3;
+
+--83] Show customers whose FirstName length > 5 characters for a name-pattern study;
+select length(firstname) from customers where length(firstname) > 5;
+
+--84] Show all unique roles available in the hotel;
+select distinct(role) from staff;
+
+-- 85] List all rooms where capacity is greater than 2;
+select * from rooms where capacity > 2;
+
+--86] Display each payment’s ID with Amount using CONCAT;
+select concat(paymentid, ' ', amount) from payments;
+
+--87] List all Card payments from the Payments table;
+select * from payments where paymentmethod = 'card';
+
+-- 88] Delete all customers whose Email ends with '@test.com' as invalid;
+delete from customers where email like '%@test.com';
+
+--89] The hotel manager wants to review bookings where CheckOutDate before '2023-12-31' to measure old occupancy;
+select * from bookings where checkoutdate < '2023-12-31';
+
+--90] The front office manager needs to list rooms with capacity = 2 for couples;
+select * from rooms where capacity = 2;
+
+--91] Show all unique capacities in descending order;
+select distinct( capacity) from rooms order by capacity  desc;
+
+--92] The operations team wants to find the minimum TotalAmount in bookings;
+select min(totalamount) from bookings;
+
+--93] Display all rooms by capacity in ascending order;
+select * from rooms order by capacity desc;
+
+--94] Show each booking’s BookingID with TotalAmount using CONCAT;
+select concat(bookingid, ' ' , totalamount) from bookings;
+
+-- 95] The operations head wants to see rooms with Capacity = 4 AND PricePerNight > ₹6000 for premium family packages;
+select * from rooms where capacity = 4 and pricepernight > 6000;
+
+--96] Show staff full names combined into one column;
+select concat_ws(' ' , firstname, lastname) as Fullname from staff;
+
+-- 97] The accounts team wants to see bookings where the TotalAmount is greater than ₹10,000 to track high-value customers;
+select * from bookings where totalamount > 10000;
+
+--98] Show all unique payment methods in descending order;
+select distinct(paymentmethod) from payments order by paymentmethod desc;
+
+-- 99] List staff members who share the same Role;
+select s1.staffid, s1.firstname, s1.role from staff s1 join staff s2 on s1.role = s2.role ; 
+
+--100] Show customer first name, last name, and TotalAmount of their bookings using JOIN between Customers and Bookings;
+select c1.firstname,c1.lastname, b1.totalamount, c1.customerid, b1.bookingid from customers c1 join bookings b1 on c1.customerid = b1.customerid;
+
+-- 101] Display the first 4 bookings only;
+select * from bookings limit 4;
+
+--102] Show all unique staff first names;
+select distinct(firstname) from staff;
+--Find Duplicate record;
+select firstname, count(firstname) from staff group by firstname having count(firstname) > 1;
+
+-- 103] Insert 5 new room records with type, price, and capacity into the Rooms table;
+insert into rooms values
+(s,s,s,s,s,),
+
+
+--104] Display each customer’s full name and city using CONCAT_WS;
+select concat_ws(' ', firstname, lastname, city) from customers;
+
+--105] Show all unique cities in descending order from the Customers table;
+select distinct(city) from customers order by city desc;
+
+--106] The analytics team wants to list all cities where maximum CustomerID is more than 100;
+select city from customers group by city having max(customerid) > 100;
+
+--107] The HR team wants to see staff whose FirstName is 'Priya' for employee recognition;
+select * from staff where firstname = 'Priya';
+
+-- 108] Display the last 2 staff members from the Staff table;
+select * from staff order by staffid desc limit 2;
+
+--109] Create a VIEW BookingSummary showing BookingID, CustomerID, RoomID, and TotalAmount;
+create view BookingSummary as select bookingid, customerid, roomid, totalamount from bookings;
+
+--110] Show all unique RoomIDs in descending order;
+select distinct(roomid) from bookings order by roomid desc;
+
+--111] Display each staff’s role with their full name;
+select concat_Ws(' ', firstname, lastname)as Fullname, Role from staff;
+
+--112] The receptionist wants to offer Suite rooms under ₹7000 to business travelers;
+select * from rooms where roomtype = 'suite' and pricepernight < 7000;
+
+--113] Display the first 3 staff alphabetically by their first names;
+select * from staff order by firstname limit 3;
+
+--114] List all bookings ordered by CheckInDate;
+select * from bookings order by checkindate;
+
+--115] Show all unique StaffIDs from the bookings;
+select distinct(staffid) from bookings;
+
+--116] Display the first 4 customers’ full names only;
+select concat_ws(' ', firstname,lastname) as fullname from customers limit 4;
+
+-- 117] Show all unique room types offered by the hotel;
+select distinct(roomtype) from rooms;
+
+--118] Display the phone number of the Waiter only;
+select firstname, phone from staff where role = 'waiter';
+
+--119] Show all bookings where TotalAmount > 5000;
+select * from bookings where totalamount > 5000;
+
+--120] The HR team wants to update Role = 'Senior Manager' where StaffID = 12;
+update staff set role = 'Senior Manager' where staffid = 12;
+
+--121] List all staff working as Managers;
+select * from staff where role like '%Manager';
+
+-- 122] Show the last 2 registered customers for follow-up;
+select * from customers order by customerid desc limit 2;
+
+-- 123] Display each booking’s BookingID with TotalAmount using CONCAT;
+select concat(bookingid, ' ', totalamount) from bookings;
+
+-- 124] Insert 5 staff members into the Staff table with their role, phone, and email;
+insert into staff values
+(23,'fdsf','fsdf','gsaaa',4543643,'gdsfgd'),
+(fddsf);
+
+--125] Display the RoomType and Price of only Suite rooms;
+select roomtype, pricepernight from rooms where roomtype = 'suite';
+
+--126] The admin wants to delete all payments linked to BookingID = 15;
+delete from payments where bookingid = 15;
+
+--127] Display all unique capacities in descending order;
+select distinct(capacity) from rooms order by capacity desc;
+
+--128] Show the first 4 rooms sorted alphabetically by RoomType;
+select * from rooms order by roomtype limit 4;
+
+--129] The cashier wants a report of payments where Amount < ₹1500 for small transactions;
+select * from payments where amount < 1500;
+
+--130] Show each booking’s BookingID with TotalAmount using CONCAT;
+select concat(bookingid, ' ', totalamount) from bookings;
+
+--131] Display the last 2 added rooms from the Rooms table;
+select * from rooms order by roomid desc limit 2;
+
+--132] List all customers whose FirstName = 'Amit' AND City = 'Nagpur' for personal attention;
+select * from customers where firstname = 'amit' and city = 'nagpur';
+
+--133] Insert 5 new customer details into the Customers table;
+insert into customers values
+(ddhg),
+(xfb);
+
+--134] Show staff full names combined into one column;
+select concat_ws(' ', firstname, lastname) as fullname from staff;
+
+--135] Show all room details separated by commas using CONCAT_WS;
+select concat_ws(', ', roomid, roomtype,pricepernight, capacity) from rooms;
+
+--136] Display each customer’s name and phone number together using CONCAT;
+select concat(firstname, ' ', Phone) from customers;
+
+--137] Display all payment details in one line using CONCAT_WS;
+select concat_ws(', ', paymentid, bookingid, paymentdate, paymentmethod, amount) from payments;
+
+--138] Show the last 2 bookings in the table;
+select * from bookings order by bookingid desc limit 2;
+select * from bookings order by checkindate desc limit 2;
+
+--139] List all payments ordered by PaymentDate;
+select * from payments order by paymentdate;
+
+--140] Show the 2 highest payments received;
+select * from payments order by amount desc limit 2;
+
+--141] The marketing team wants to check customers whose FirstName is 'Rahul' for a loyalty program;
+select * from customers where firstname = 'Rahul';
+
+--142] Display each PaymentID with its method using CONCAT;
+select concat(paymentid, ' ', paymentmethod) from payments;
+
+--143] The operations team wants to list all PaymentMethods used more than 5 times;
+select paymentmethod, count(paymentmethod) from payments group by paymentmethod having count(paymentmethod) > 5;
+select paymentmethod, count(*) from payments group by paymentmethod having count(*) > 5;
+
+--144] Show the 2 most expensive rooms for VIP guests;
+select * from rooms order by pricepernight desc limit 2;
+
+--145] Show each room’s RoomType and Price using CONCAT_WS;
+select concat_ws(' ' , roomtype, pricepernight) from rooms;
+
+--146] Display the first 3 staff alphabetically by their first names;
+select * from staff order by firstname limit 3;
+
+--147] List all bookings handled by StaffID = 2;
+select * from bookings where staffid = 2;
+
+--148] The analytics team wants to find the city where average CustomerID is greater than 50;
+select city from customers group by city having avg(customerid) > 50;
+
+--149] The hotel wants to display the 2 most expensive rooms for VIP guests;
+select * from rooms order by pricepernight desc limit 2;
+
+--150] Show all unique first names of customers for a duplicate check;
+select distinct(firstname) from customers;
+
+-- 151] Show all unique roles in descending order;
+select distinct(role) from staff order by role desc;
+
+--152] Identify rooms whose Capacity is greater than the average Capacity of all rooms;
+select * from rooms where capacity > (select avg(capacity) from rooms);
+
+-- 153] Display all rooms by capacity in ascending order;
+select * from rooms order by capacity;
+
+--154] Display the first 4 payments only;
+select * from payments limit 4;
+
+--155] Show each payment’s ID, Method, Amount in one line;
+select concat_ws(', ', paymentid, paymentmethod,amount) from payments;
+
+--156] List all bookings where TotalAmount > 5000;
+select * from bookings where totalamount > 5000;
+
+--157] Find all customers whose CustomerID is greater than the average CustomerID;
+select * from customers where customerid >(select avg(customerid) from customers);
+
+-- 158] The HR manager wants to see staff whose Role is not 'Chef' for role relocation;
+select * from staff where role != 'chef';
+
+--159] The accounts team wants to check bookings where TotalAmount is greater than 10000;
+select * from bookings where totalamount > 10000;
+
+--160] Display each staff’s role with their full name;
+select concat_ws(' ', firstname,lastname), role from staff;
+
+--161] List staff members who share the same Role;
+select s1.staffid, s1.firstname, s2.role from staff s1 join staff s2 on s1.role = s2.role and s1.staffid > s2.staffid; 
+
+--162] Show Customer Name and Payment Amount by joining Customers, Bookings, and Payments;
+select c.firstname, p.amount from bookings b 
+join customers c on b.customerid = c.customerid
+join payments p on p.bookingid = b.bookingid;
+
+--163] Display all bookings where TotalAmount > 5000;
+select * from bookings where totalamount > 5000;
+
+--164] The front desk wants to see customers whose Phone starts with '98';
+select * from customers where phone like '98%';
+
+--165] Identify customers who live in the same city;
+select c1.customerid, c1.firstname, c2.customerid, c2.firstname from customers c1 join customers c2 on c1.city = c2.city and c1.customerid < c2.customerid;
+
+--166]The operations manager wants to check bookings with CheckOutDate before '2023-12-31';
+select * from bookings where checkoutdate < '2023-12-31';
+
+-- 167] Display all unique StaffIDs from the bookings;
+select distinct(staffid) from bookings;
+
+--167]Create a VIEW OnlinePayments showing all payments made by PaymentMethod = 'Online';
+create view Onlinepayments as select * from payments where paymentmethod = 'Online';
+create view Onlinepayment as select * from payments where paymentmethod in ('card','netbanking', 'upi');
+
+--169] Display all unique payment methods in descending order;
+select distinct(paymentmethod) from payments order by paymentmethod desc;
+
+--170] Display each payment’s ID with Amount using CONCAT;
+select concat(paymentid, ' ', amount) from payments;
+
+--171] Show all unique RoomIDs in descending order;
+select distinct(roomid) from bookings order by roomid desc;
+
+--172] The analytics team wants to list all cities where maximum CustomerID is more than 100;
+select city, max(customerid) from customers group by city having max(customerid) > 100;
+
+--173] List staff emails ordered by their roles;
+select firstname, email, role from staff order by role;
+
+--174] Find bookings where TotalAmount exceeds the average TotalAmount;
+select * from bookings where totalamount > (select avg(totalamount) from bookings) order by totalamount;
+
+--175] Show all rooms where PricePerNight > ₹5000 for premium customer recommdation;
+select * from rooms where pricepernight > 5000;
+
+-- 176] Show all unique capacities in descending order;
+select distinct(capacity) from rooms order by capacity desc;
+
+--177] Display the first 4 rooms sorted alphabetically by RoomType;
+select * from rooms order by roomtype limit 4;
+
+-- 178] Show all unique staff first names;
+select distinct (firstname) from staff;
+
+--179] Identify rooms with PricePerNight higher than the maximum PricePerNight of rooms with Capacity = 2;
+select roomid from rooms where pricepernight > (select max(pricepernight) from rooms where capacity = 2);
+
+--180] Show all unique cities in descending order from the Customers table;
+select distinct(city) from customers order by city desc;
+
+--181] List all bookings where TotalAmount > 5000;
+select * from bookings where totalamount > 5000;
+
+--182] Show PaymentID, Customer Name, and BookingID for payments made using 'Credit Card';
+select p.paymentid, c.firstname, b.bookingid from bookings b
+join customers c on c.customerid = b.customerid
+join payments p on p.bookingid = b.bookingid where p.paymentmethod = 'credit card';
+
+--183] Display each booking’s BookingID with TotalAmount using CONCAT;
+select concat(bookingid, ' ', totalamount) from bookings;
+
+--184] Show all bookings handled by StaffID = 2;
+select * from bookings where staffid = 2;
+
+--185] Display the last 2 added rooms from the Rooms table;
+select * from rooms order by roomid desc limit 2;
+
+-- 186] List all rooms where capacity is greater than 2;
+select * from rooms where capacity > 2;
+
+--187] Display the last 2 staff members from the Staff table;
+select * from staff order by staffid desc limit 2;
+
+--188] Show all unique roles available in the hotel;
+select distinct(role) from staff;
+
+--189] Display the last 2 payments;
+select * from payments order by paymentid desc limit 2;
+
+--190] The manager wants to see bookings where CustomerID IN (2,4,6,8) to track repeat guests;
+select * from bookings where customerid in (2,4,6,8);
+
+--191] Show all unique first names of customers for a duplicate check;
+select distinct(firstname) from customers;
+
+--192] Display all bookings where TotalAmount > 5000;
+select * from bookings where totalamount > 5000;
+
+--193] The admin wants to delete all payments where Amount < 1000;
+delete from payments where amount < 1000;
+
+-- 194] Display all unique RoomIDs in descending order;
+select distinct(roomid) from bookings;
+
+--195] List customers who made more than 5 bookings;
+select customerid, count(*) from bookings group by customerid having count(*) > 5 ;
+
+--196] Display all rooms by capacity in ascending order;
+select * from rooms order by capacity ;
+
+--197] Show each booking’s BookingID with TotalAmount using CONCAT;
+select *, concat(bookingid, ' ', totalamount) from bookings;
+
+-- 198] List all staff working as Managers;
+select * from staff where role like '%manager';
+select * from staff where role = 'manager';
+
+--199] Show customers whose FirstName length > 5 characters for a name-pattern study;
+select firstname from customers where length(firstname) > 5;
+
+-- 200] Display all unique capacities in descending order;
+select distinct(capacity) from rooms order by capacity desc;
+
+--201] List staff members who share the same Role;
+select s1.staffid, s1.firstname , s2.staffid, s2.firstname,s2.role from staff s1 join staff s2 on s1.role = s2.role and s1.staffid > s2.staffid;
+
+--202] Show PaymentID, Customer Name, and BookingID for payments made using 'Credit Card';
+select p.paymentid, c.firstname, b.bookingid from payments p
+join bookings b on p.bookingid = b.bookingid
+join customers c on c.customerid = b.customerid where p.paymentmethod = 'credit card'; 
+
+-- 203] Display the first 4 payments only;
+select * from payments limit 4;
+
+-- 204] Show each payment’s ID, Method, Amount in one line;
+select concat_ws(' ', paymentid,paymentmethod, amount) as info from payments;
+
+--205] Create a VIEW HighValueBookings showing all bookings with TotalAmount > 20,000;
+create view Highvaluebookings as select * from bookings where totalamount > 20000;
+
+--206] Create a trigger to automatically delete a payment when its corresponding booking is deleted;
+
+delimiter //
+create trigger deleteddata
+{before} {delete}
+on payments
+for each row
+begin
+
+end;
+//
+;
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
